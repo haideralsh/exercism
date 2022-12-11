@@ -37,9 +37,9 @@ func within(p DaysPeriod) func(Record) bool {
 }
 
 func belongs(c string) func(Record) bool {
-    return func(r Record) bool {
-        return r.Category == c
-    }
+	return func(r Record) bool {
+		return r.Category == c
+	}
 }
 
 // ByDaysPeriod returns predicate function that returns true when
@@ -52,19 +52,19 @@ func ByDaysPeriod(p DaysPeriod) func(Record) bool {
 // the category of the record is the same as the provided category
 // and false otherwise.
 func ByCategory(c string) func(Record) bool {
-    return belongs(c)
+	return belongs(c)
 }
 
 // TotalByPeriod returns total amount of expenses for records
 // inside the period p.
 func TotalByPeriod(in []Record, p DaysPeriod) float64 {
-    sum := 0.0
+	sum := 0.0
 
-    for _, r := range Filter(in, within(p)) {
-        sum += r.Amount
-    }
+	for _, r := range Filter(in, within(p)) {
+		sum += r.Amount
+	}
 
-    return sum
+	return sum
 }
 
 // CategoryExpenses returns total amount of expenses for records
@@ -72,11 +72,11 @@ func TotalByPeriod(in []Record, p DaysPeriod) float64 {
 // An error must be returned only if there are no records in the list that belong
 // to the given category, regardless of period of time.
 func CategoryExpenses(in []Record, p DaysPeriod, c string) (float64, error) {
-    filteredByCatagory := Filter(in, belongs(c))
+	filteredByCatagory := Filter(in, belongs(c))
 
-    if len(filteredByCatagory) == 0 {
-        return 0.0, errors.New("something bad")
-    }
+	if len(filteredByCatagory) == 0 {
+		return 0.0, errors.New("something bad")
+	}
 
-    return TotalByPeriod(filteredByCatagory, p), nil
+	return TotalByPeriod(filteredByCatagory, p), nil
 }
